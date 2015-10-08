@@ -27,7 +27,7 @@ import org.jboss.aesh.console.command.CommandOperation;
 import org.jboss.aesh.console.man.FileParser;
 import org.jboss.aesh.console.man.TerminalPage;
 import org.jboss.aesh.console.operator.ControlOperator;
-import org.jboss.aesh.edit.actions.Operation;
+import org.jboss.aesh.terminal.Key;
 import org.jboss.aesh.util.ANSI;
 import org.jboss.aesh.util.LoggerUtil;
 
@@ -132,13 +132,13 @@ public abstract class FileDisplayer implements Completion {
             }
         }
         else if(operation.getInput()[0] == 'j' ||
-                operation.equals(Operation.HISTORY_NEXT) || operation.equals(Operation.NEW_LINE)) {
+                 operation.getInputKey() == Key.CTRL_J || operation.getInputKey() == Key.CTRL_M) {
             if(search == Search.SEARCHING) {
                 if(operation.getInput()[0] == 'j') {
                     searchBuilder.append((char) operation.getInput()[0]);
                     displayBottom();
                 }
-                else if(operation.equals(Operation.NEW_LINE)) {
+                else {
                     search = Search.RESULT;
                     findSearchWord(true);
                 }
@@ -156,7 +156,7 @@ public abstract class FileDisplayer implements Completion {
                 clearNumber();
             }
         }
-        else if(operation.getInput()[0] == 'k' || operation.equals(Operation.HISTORY_PREV)) {
+        else if(operation.getInput()[0] == 'k') {
             if(search == Search.SEARCHING) {
                 if(operation.getInput()[0] == 'k')
                 searchBuilder.append((char) operation.getInput()[0]);
@@ -170,7 +170,7 @@ public abstract class FileDisplayer implements Completion {
                 clearNumber();
             }
         }
-        else if(operation.getInput()[0] == 6 || operation.equals(Operation.PGDOWN)
+        else if(operation.getInput()[0] == 6 || operation.getInputKey() == Key.PGDOWN
                 || operation.getInput()[0] == 32) { // ctrl-f || pgdown || space
             if(search == Search.SEARCHING) {
 
@@ -188,7 +188,7 @@ public abstract class FileDisplayer implements Completion {
                 clearNumber();
             }
         }
-        else if(operation.getInput()[0] == 2 || operation.equals(Operation.PGUP)) { // ctrl-b || pgup
+        else if(operation.getInput()[0] == 2 || operation.getInputKey() == Key.PGUP) { // ctrl-b || pgup
             if(search != Search.SEARCHING) {
                 topVisibleRow = topVisibleRow - ((rows - 1) * getNumber());
                 if(topVisibleRow < 0)

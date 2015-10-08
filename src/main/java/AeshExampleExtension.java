@@ -52,7 +52,6 @@ public class AeshExampleExtension {
 
     public static void main(String[] args) throws IOException {
         SettingsBuilder settingsBuilder = new SettingsBuilder();
-        settingsBuilder.readInputrc(false);
         settingsBuilder.logging(true);
 
         CommandRegistry registry = new AeshCommandRegistryBuilder()

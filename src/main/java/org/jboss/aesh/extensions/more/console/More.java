@@ -28,9 +28,9 @@ import org.jboss.aesh.console.command.CommandOperation;
 import org.jboss.aesh.console.man.FileParser;
 import org.jboss.aesh.console.man.TerminalPage;
 import org.jboss.aesh.console.operator.ControlOperator;
-import org.jboss.aesh.edit.actions.Operation;
 import org.jboss.aesh.extensions.page.SimpleFileParser;
 import org.jboss.aesh.io.FileResource;
+import org.jboss.aesh.terminal.Key;
 import org.jboss.aesh.terminal.TerminalString;
 import org.jboss.aesh.util.ANSI;
 import org.jboss.aesh.util.FileLister;
@@ -115,7 +115,7 @@ public class More implements Completion {
         if(operation.getInput()[0] == 'q') {
             afterDetach();
         }
-        else if( operation.equals(Operation.NEW_LINE)) {
+        else if( operation.getInputKey() == Key.CTRL_J || operation.getInputKey() == Key.CTRL_M) {
             topVisibleRow = topVisibleRow + getNumber();
             if(topVisibleRow > (page.size()-rows)) {
                 topVisibleRow = page.size()-rows;

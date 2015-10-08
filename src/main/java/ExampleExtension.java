@@ -48,7 +48,6 @@ public class ExampleExtension {
 
         //Settings.getInstance().setAnsiConsole(false);
         SettingsBuilder settingsBuilder = new SettingsBuilder();
-        settingsBuilder.readInputrc(false);
         settingsBuilder.logging(true);
         final Console exampleConsole = new Console(settingsBuilder.create());
 

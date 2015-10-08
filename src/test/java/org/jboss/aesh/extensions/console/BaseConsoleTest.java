@@ -40,9 +40,6 @@ import org.jboss.aesh.console.Console;
 import org.jboss.aesh.console.ConsoleOperation;
 import org.jboss.aesh.console.settings.Settings;
 import org.jboss.aesh.console.settings.SettingsBuilder;
-import org.jboss.aesh.edit.KeyOperation;
-import org.jboss.aesh.edit.actions.Operation;
-import org.jboss.aesh.terminal.Key;
 import org.jboss.aesh.terminal.TestTerminal;
 
 /**
@@ -55,15 +52,12 @@ public abstract class BaseConsoleTest {
             builder = new SettingsBuilder();
             builder.enableAlias(false);
         }
-        builder.readInputrc(false);
         builder.terminal(new TestTerminal());
         builder.inputStream(is);
         builder.outputStream(new PrintStream(new ByteArrayOutputStream()));
 
         if(!Config.isOSPOSIXCompatible())
             builder.ansi(false);
-
-        builder.create().getOperationManager().addOperation(new KeyOperation(Key.ENTER, Operation.NEW_LINE));
 
         return builder.create();
     }

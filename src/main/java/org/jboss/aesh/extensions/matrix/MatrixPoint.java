@@ -41,7 +41,7 @@ public class MatrixPoint {
 
     private final int rows;
     private final int columns;
-    private final byte[] out;
+    private final char[] out;
     private int cyclesToLive;
     private int position;
     private int length;
@@ -55,12 +55,8 @@ public class MatrixPoint {
         this.columns = columns;
 
         String cursorPosition = ANSI.START+ y +";"+ x +"H"; //   moveCursor(rows, columns);
-        out = new byte[cursorPosition.getBytes().length+2];
-        int counter = 0;
-        for(byte b : cursorPosition.getBytes()) {
-            out[counter] = b;
-            counter++;
-        }
+        out = new char[cursorPosition.length()+1];
+        cursorPosition.getChars(0, cursorPosition.length(), out, 0);
         character = ' ';
 
         previousWasText = shouldStartWithText();
@@ -68,7 +64,7 @@ public class MatrixPoint {
 
     public void getChanges(Shell shell) throws IOException {
 
-        if(out[out.length-2] != -1 && defaultCharacter == '\u0000') {
+        if(out[out.length-1] != -1 && defaultCharacter == '\u0000') {
             if(length == cyclesToLive && character != ' ') {
                 shell.out().print(WHITE_COLOR.fullString());
                 if(out[out.length-1] != -1) {
@@ -86,8 +82,7 @@ public class MatrixPoint {
                 else {
                     shell.out().write(out, 0, out.length-1);
                 }
-                out[out.length-2] = -1;
-                out[out.length-1] = -1;
+//                out[out.length-1] = (char) -1;
             }
         }
     }
@@ -141,8 +136,7 @@ public class MatrixPoint {
     }
 
     private void updateOut(char c) {
-        out[out.length-2] = (byte) ((c >>> Byte.SIZE) & 0x00ff);
-        out[out.length-1] = (byte) (c & 0x00ff);
+        out[out.length-1] = c;
     }
 
     public int getPosition() {
